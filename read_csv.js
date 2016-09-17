@@ -26,7 +26,12 @@ var get = function(url) {
 
 var parseCSVToObject = function (csv) {
   var rows = csv.split('\n').map(function(str) { return str.trim(); });
-  var columnHeaders = rows.shift().split(','); // TODO: check for uniqueness
+  var columnHeaders = rows.shift().split(',');
+  for (var i = 1; i < columnHeaders.length; i++) {
+    if (columnHeaders.indexOf(columnHeaders[i - 1], i) >= 0) {
+      return Promise.reject('Column headings must be unique.')
+    }
+  }
   return rows.map(function(row) {
     if (row.trim().length) {
       return row.split(',').reduce(function(rowObject, value, i) {
