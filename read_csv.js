@@ -1,3 +1,4 @@
+// Has dependency on moment.js
 
 var get = function(url) {
   return new Promise (function (resolve, reject) {
@@ -35,3 +36,29 @@ var parseCSVToObject = function (csv) {
     }
   })
 };
+
+var applyTransformationsToObjects = function (objects, transformations) {
+  objects.forEach(function(object) {
+    for (key in transformations) {
+      if (object && key in object) {
+        object[key] = transformations[key](object[key]);
+      }
+    }
+  });
+  return objects
+};
+
+var getDateFromDateString = function(dateString, dateFormat) {
+  return moment(dateString, dateFormat.slice(0, dateString.length));
+};
+
+var prepareData = function (objects) {
+  var dateFormat = 'YYYYMMDDHHMMSS';
+  var transformations = {
+    category: function(str) { return str.toLowerCase(); },
+    end: function(str) { return str == 'present' ? moment() : getDateFromDateString(str, dateFormat); },
+    id: Number,
+    start: function(str) { return getDateFromDateString(str, dateFormat) }
+  }
+  return applyTransformationsToObjects(objects, transformations);
+}
