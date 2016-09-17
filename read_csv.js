@@ -22,3 +22,16 @@ var get = function(url) {
     request.send();
   })
 };
+
+var parseCSVToObject = function (csv) {
+  var rows = csv.split('\n');
+  var columnHeaders = rows.shift().split(','); // TODO: check for uniqueness
+  return rows.map(function(row) {
+    if (row.length) {
+      return row.split(',').reduce(function(rowObject, value, i) {
+        rowObject[columnHeaders[i]] = value;
+        return rowObject;
+      }, {});
+    }
+  })
+};
