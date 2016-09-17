@@ -1,0 +1,15 @@
+{
+  "name": "lifeline",
+  "version": "0.0.0",
+  "description": "A webapp to display a timeline of events in your life",
+  "main": "main.js",
+  "dependencies": {
+    "moment": "~2.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven Lundy",
+  "license": "BSD-2-Clause"
+}
