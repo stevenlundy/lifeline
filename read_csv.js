@@ -24,12 +24,12 @@ var get = function(url) {
 };
 
 var parseCSVToObject = function (csv) {
-  var rows = csv.split('\n');
+  var rows = csv.split('\n').map(function(str) { return str.trim(); });
   var columnHeaders = rows.shift().split(','); // TODO: check for uniqueness
   return rows.map(function(row) {
-    if (row.length) {
+    if (row.trim().length) {
       return row.split(',').reduce(function(rowObject, value, i) {
-        rowObject[columnHeaders[i]] = value;
+        rowObject[columnHeaders[i]] = value.trim();
         return rowObject;
       }, {});
     }
